@@ -1,3 +1,6 @@
+# 2.7.4
+* fixed UPS using deprecated API
+
 # 2.7.3
 * fixed an issue in USPS is not working
 
