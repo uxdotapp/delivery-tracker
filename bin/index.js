@@ -5,9 +5,9 @@ var tracker = require('../')
 
 program
   .arguments('<tracecode>')
-  .option('-c, --courier <courier>', 'Courier Namespace', /^(KOREAPOST|ECARGO|FEDEX|PANTOS|RINCOS|AUSPOST|ROYALMAIL|USPS|CJKOREAEXPRESS|POSLAJU|YELLOEXPRESS|EFS|AIRBRIDGE|UPS|TNT|CESCO|XPOST|KERRYTHAI|SICEPAT|XIOEXPRESS|EPARCEL|LBC|JNT|DHL|CANADAPOST)$/i)
+  .option('-c, --courier <courier>', 'Courier Namespace', /^(ASENDIA|KOREAPOST|ECARGO|FEDEX|PANTOS|RINCOS|AUSPOST|ROYALMAIL|USPS|CJKOREAEXPRESS|POSLAJU|YELLOEXPRESS|EFS|AIRBRIDGE|UPS|TNT|CESCO|XPOST|KERRYTHAI|SICEPAT|XIOEXPRESS|EPARCEL|LBC|JNT|DHL|CANADAPOST)$/i)
   .option('-k, --apikey <apikey>', 'API KEY')
-  .action(function (tracecode) {
+  .action(async function (tracecode) {
     if (!tracker.COURIER[program.courier]) {
       console.error('The Company is not supported.')
       process.exit(1)
@@ -22,14 +22,8 @@ program
     }
 
     var courier = tracker.courier(tracker.COURIER[program.courier].CODE, opts)
-    courier.trace(tracecode, function (err, result) {
-      if (err) {
-        console.error(err)
-        process.exit(1)
-      }
-
-      console.log(JSON.stringify(result, null, 2))
-      process.exit(0)
-    })
+    const result = await courier.trace(tracecode);
+    console.log(JSON.stringify(result, null, 2))
+    process.exit(0)
   })
   .parse(process.argv)
