@@ -14,13 +14,12 @@ describe(tracker.COURIER.ASENDIA.NAME, function () {
 
   before(function () {
     // @TODO add nock
-    prepare(courier, deliveredNumber)
   })
 
   it('delivered number', async function () {
 
     var result = await courier.trace(deliveredNumber);
-    assert.equal(deliveredNum, result.number)
+    assert.equal(deliveredNumber, result.number)
     assert.equal(tracker.COURIER.ASENDIA.CODE, result.courier.code)
     assert.equal(tracker.STATUS.DELIVERED, result.status)
   })
