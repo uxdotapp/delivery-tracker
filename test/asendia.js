@@ -10,7 +10,7 @@ var tracker = require('..')
 var courier = tracker.courier(tracker.COURIER.ASENDIA.CODE)
 
 describe(tracker.COURIER.ASENDIA.NAME, function () {
-  var deliveredNumber = 'TRACKING-NUMBER'
+  var deliveredNumber = '9842537BBFF3455CADF94CF19F37406C'
 
   before(function () {
     // @TODO add nock
@@ -18,9 +18,11 @@ describe(tracker.COURIER.ASENDIA.NAME, function () {
 
   it('delivered number', async function () {
 
-    var result = await courier.trace(deliveredNumber);
-    assert.equal(deliveredNumber, result.number)
-    assert.equal(tracker.COURIER.ASENDIA.CODE, result.courier.code)
-    assert.equal(tracker.STATUS.DELIVERED, result.status)
+    await courier.trace(deliveredNumber, async function (err, result) {
+      assert.equal(err, null)
+      assert.equal(deliveredNumber, result.number)
+      assert.equal(tracker.COURIER.ASENDIA.CODE, result.courier.code)
+      assert.equal(tracker.STATUS.DELIVERED, result.status)
+    })
   })
 })
